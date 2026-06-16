@@ -1,0 +1,42 @@
+<div class="bg-white rounded-xl shadow p-6">
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="text-lg font-bold text-gray-800">Admin — POC Directory</h2>
+    <div class="flex items-center gap-2">
+      <button (click)="loadPocs()" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded text-sm">Reload</button>
+    </div>
+  </div>
+
+  @if (err()) {
+  <div class="mb-3 text-sm text-red-600 bg-red-50 border border-red-300 rounded p-2">{{ err() }}</div>
+  }
+
+  @if (pocs().length === 0) {
+  <p class="text-sm text-gray-400">No POCs found.</p>
+  } @else {
+  <div class="overflow-auto">
+    <table class="w-full text-sm text-left border">
+      <thead>
+        <tr class="bg-gray-50 text-gray-500 uppercase text-xs">
+          <th class="py-2 px-3 border">Emp ID</th>
+          <th class="py-2 px-3 border">Name</th>
+          <th class="py-2 px-3 border">Email</th>
+          <th class="py-2 px-3 border">Mobile</th>
+          <th class="py-2 px-3 border">Cohorts</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (p of pocs(); track p.empId) {
+        <tr>
+          <td class="py-2 px-3 border">{{ p.empId }}</td>
+          <td class="py-2 px-3 border">{{ p.name }}</td>
+          <td class="py-2 px-3 border">{{ p.email }}</td>
+          <td class="py-2 px-3 border">{{ p.mobileNo }}</td>
+          <td class="py-2 px-3 border">{{ (p.cohorts || []).join(', ') }}</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  }
+</div>
+
