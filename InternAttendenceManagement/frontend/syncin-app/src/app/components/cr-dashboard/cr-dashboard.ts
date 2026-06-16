@@ -59,6 +59,31 @@ export class CrDashboard {
     });
   }
 
+  // CR: mark themselves present using the currently displayed token
+  markSelfPresent() {
+    this.msg.set('');
+    this.err.set('');
+    const token = this.token();
+    if (!token) {
+      this.err.set('No token available. Generate token first.');
+      return;
+    }
+
+    this.api.punchIn(token).subscribe({
+      next: (res: any) => {
+        // Show success message and refresh lists/analytics
+        this.msg.set(res?.message || 'Marked present successfully.');
+        this.loadPresent();
+        this.loadDailyAnalytics();
+        this.loadAttendanceSheet();
+      },
+      error: (e: any) => {
+        const emsg = e?.error?.error || e?.error?.message || e?.error || 'Failed to mark present.';
+        this.err.set(emsg);
+      }
+    });
+  }
+
   loadPresent() {
     this.api.getPresentToday().subscribe({
       next: (data: any) => this.presentList.set(data),
