@@ -7,11 +7,14 @@ import { Layout } from './components/layout/layout';
 import { PocDashboard } from './components/poc-dashboard/poc-dashboard';
 import { CrDashboard } from './components/cr-dashboard/cr-dashboard';
 import { InternDashboard } from './components/intern-dashboard/intern-dashboard';
+import { RoleSelectionComponent } from './components/role-selection/role-selection';
 
 export const routes: Routes = [
+  {path: '', component: RoleSelectionComponent},
   { path: 'admin', component: AdminSudo },
   { path: 'admin-dashboard', component: AdminDashboard },
   { path: 'change-password', component: ChangePassword },
+  { path: 'login', component: UserLogin },
   {
     path: 'dashboard',
     component: Layout,

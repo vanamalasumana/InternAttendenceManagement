@@ -1,0 +1,54 @@
+<div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex flex-col items-center justify-center px-4 py-12 font-sans" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+
+  <!-- Header Branding -->
+  <div class="text-center mb-12 animate-fade-in">
+    <h1 class="text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl">
+      Welcome to <span class="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">SyncIn</span>
+    </h1>
+    <p class="text-gray-500 mt-3 text-lg">Select your portal access level to continue</p>
+  </div>
+
+  <!-- Cards Grid Wrapper -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-3xl">
+
+    <!-- ADMIN PORTAL CARD -->
+    <div (click)="navigateTo('admin')"
+         class="group bg-white rounded-3xl shadow-xl p-8 border border-gray-100 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl active:translate-y-0 active:shadow-lg flex flex-col items-start justify-between">
+      <div>
+        <div class="inline-block bg-gradient-to-br from-slate-800 to-slate-900 text-white rounded-2xl p-4 mb-6 transition-transform duration-300 group-hover:scale-110 shadow-md">
+          <span class="text-3xl block">🔐</span>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 tracking-tight group-hover:text-blue-600 transition-colors">Administrator Portal</h2>
+        <p class="text-gray-500 text-sm mt-2 leading-relaxed">
+          Manage system configurations, control point-of-contacts, configure student/intern cohorts, and view root-level architecture settings.
+        </p>
+      </div>
+      <div class="w-full mt-8 flex items-center justify-between text-sm font-semibold text-gray-700 group-hover:text-blue-600 transition-colors">
+        <span>Access Admin Panel</span>
+        <span class="transform transition-transform duration-300 group-hover:translate-x-1">➔</span>
+      </div>
+    </div>
+
+    <!-- USER PORTAL CARD -->
+    <div (click)="navigateTo('user')"
+         class="group bg-white rounded-3xl shadow-xl p-8 border border-gray-100 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl active:translate-y-0 active:shadow-lg flex flex-col items-start justify-between">
+      <div>
+        <div class="inline-block bg-gradient-to-br from-blue-500 to-blue-600 text-white rounded-2xl p-4 mb-6 transition-transform duration-300 group-hover:scale-110 shadow-md">
+          <span class="text-3xl block">💼</span>
+        </div>
+        <h2 class="text-2xl font-bold text-gray-900 tracking-tight group-hover:text-blue-600 transition-colors">Employee & Intern Portal</h2>
+        <p class="text-gray-500 text-sm mt-2 leading-relaxed">
+          Access tracking dashboards, monitor attendance logs, review monthly workspace calendar states, and coordinate leave submissions.
+        </p>
+      </div>
+      <div class="w-full mt-8 flex items-center justify-between text-sm font-semibold text-gray-700 group-hover:text-blue-600 transition-colors">
+        <span>Sign In to SyncIn</span>
+        <span class="transform transition-transform duration-300 group-hover:translate-x-1">➔</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer Meta -->
+  <p class="text-xs text-gray-400 text-center mt-12 tracking-wide uppercase">Authorized Enterprise Network Access Only</p>
+</div>

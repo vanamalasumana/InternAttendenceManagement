@@ -3,14 +3,10 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Auth } from '../../services/auth';
 
-// Decorator
 @Component({
-//   js object with metadata about the component
   selector: 'app-user-login',
   standalone: true,
   imports: [FormsModule],
-//   . represent the current folder
-// if u put .. it represent the parent folder
   templateUrl: './user-login.html',
 })
 export class UserLogin {
@@ -23,8 +19,16 @@ export class UserLogin {
       this.router.navigate(['/admin']);
       return;
     }
+
+    // FIX: Only trigger auto-redirect if the user has an active session AND a valid dashboard role.
     if (this.authService.isLoggedIn()) {
-      this.redirectByRole();
+      const role = this.authService.getUserRole();
+      if (role === 'POC' || role === 'CR' || role === 'INTERN') {
+        this.redirectByRole();
+      } else {
+        // Optional: If the session state is broken/stale, clear it here so it doesn't cause issues
+        // this.authService.logout();
+      }
     }
   }
 
@@ -52,4 +56,3 @@ export class UserLogin {
     else this.router.navigate(['/']);
   }
 }
-
