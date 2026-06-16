@@ -13,21 +13,27 @@ export class Auth {
   constructor(private http: HttpClient) {}
 
   login(empId: string, password: string): Observable<any> {
+    // SECURITY FIX: If an admin was logged in, clear their session before a regular user logs in
+    this.adminLogout();
+
     return this.http
       .post<any>(`${BASE_URL}/auth/login`, { empId, password })
       .pipe(tap(res => {
-        localStorage.setItem(TOKEN_KEY, res.token);
-        localStorage.setItem('user_role', res.role);
-        localStorage.setItem('user_id', res.empId);
-        localStorage.setItem('user_name', res.name || '');
-        localStorage.setItem('is_first_login', res.firstLogin);
+        sessionStorage.setItem(TOKEN_KEY, res.token);
+        sessionStorage.setItem('user_role', res.role);
+        sessionStorage.setItem('user_id', res.empId);
+        sessionStorage.setItem('user_name', res.name || '');
+        sessionStorage.setItem('is_first_login', String(res.firstLogin));
       }));
   }
 
   adminLogin(username: string, password: string): Observable<{ token: string }> {
+    // SECURITY FIX: If a standard user was logged in, clear their session before admin logs in
+    this.logout();
+
     return this.http
       .post<{ token: string }>(`${BASE_URL}/admin/login`, { username, password })
-      .pipe(tap(res => localStorage.setItem(ADMIN_TOKEN_KEY, res.token)));
+      .pipe(tap(res => sessionStorage.setItem(ADMIN_TOKEN_KEY, res.token)));
   }
 
   getMyProfile(): Observable<{ empId: string; name: string; role: string }> {
@@ -39,11 +45,11 @@ export class Auth {
   }
 
   getToken(): string | null {
-    return localStorage.getItem(TOKEN_KEY);
+    return sessionStorage.getItem(TOKEN_KEY);
   }
 
   getAdminToken(): string | null {
-    return localStorage.getItem(ADMIN_TOKEN_KEY);
+    return sessionStorage.getItem(ADMIN_TOKEN_KEY);
   }
 
   isLoggedIn(): boolean {
@@ -55,34 +61,40 @@ export class Auth {
   }
 
   isFirstLogin(): boolean {
-    return localStorage.getItem('is_first_login') === 'true';
+    return sessionStorage.getItem('is_first_login') === 'true';
   }
 
   getUserRole(): string | null {
-    return localStorage.getItem('user_role');
+    return sessionStorage.getItem('user_role');
   }
 
   getUserId(): string | null {
-    return localStorage.getItem('user_id');
+    return sessionStorage.getItem('user_id');
   }
 
   getUserName(): string | null {
-    return localStorage.getItem('user_name');
+    return sessionStorage.getItem('user_name');
   }
 
   clearFirstLogin(): void {
-    localStorage.setItem('is_first_login', 'false');
+    sessionStorage.setItem('is_first_login', 'false');
   }
 
   logout(): void {
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem('user_role');
-    localStorage.removeItem('user_id');
-    localStorage.removeItem('user_name');
-    localStorage.removeItem('is_first_login');
+    sessionStorage.removeItem(TOKEN_KEY);
+    sessionStorage.removeItem('user_role');
+    sessionStorage.removeItem('user_id');
+    sessionStorage.removeItem('user_name');
+    sessionStorage.removeItem('is_first_login');
   }
 
   adminLogout(): void {
-    localStorage.removeItem(ADMIN_TOKEN_KEY);
+    sessionStorage.removeItem(ADMIN_TOKEN_KEY);
+  }
+
+  // NEW HELPER: Clear absolutely everything (useful for the main entry page)
+  clearAllSessions(): void {
+    this.logout();
+    this.adminLogout();
   }
 }

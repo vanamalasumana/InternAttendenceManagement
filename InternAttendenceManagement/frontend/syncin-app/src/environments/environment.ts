@@ -2,5 +2,5 @@
 
 
 export const environment = {
-  apiUrl: 'http://localhost:8081'
+  apiUrl: 'https://syncinv2-production.up.railway.app'
 };
